@@ -76,7 +76,8 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 
 
 // ----------updateNetwork----------
-// Updates the token ring network; should be called at least once every 500us
+// Updates the token ring network
+// should be called whenever a character is recieved
 // Parameters: none
 // Modifies: the input buffer is filled with the input string
 //		the first byte specifies the length of the buffer
