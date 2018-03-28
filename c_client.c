@@ -68,7 +68,7 @@ void ipConfig(
 // ----------sendMessage------------
 // Send a packet on the network.
 // Parameters:
-//		(uint8_t) destination: destination address; pass 0xFF in order to broadcast
+//		(uint8_t) destination
 //		(char*) message to send
 //		(uint8_t) length of message
 // Returns: none
@@ -76,18 +76,13 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 
 	// Clear checksum
 	clearChecksum();
+
 	// Start message (don't update checksum)
 	configuration.sendFunction(0xAA);
 
-	// Broadcast -> source address only -> set bit 7
-	if(destination == 0xFF) {
-		sendByte(0x80 | configuration.deviceAddress);
-	}
-	// Source and destination address
-	else {
-		sendByte(configuration.deviceAddress);
-		sendByte(destination);
-	}
+	// Send address
+	sendByte(configuration.deviceAddress);
+	sendByte(destination);
 
 	// Send size
 	sendByte(length);
@@ -97,7 +92,7 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 		sendByte(message[i]);
 	}
 
-	// Send checksum
+	// Send checksum (don't update checksum obviously)
 	configuration.sendFunction(currentCheckSum);
 
 	return;
@@ -114,7 +109,7 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 void updateNetwork(char* buffer) {
 
 	// Read input buffer
-	// Main function not implemented.
+	// You implement this function
 
 	return;
 
