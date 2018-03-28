@@ -6,3 +6,9 @@
 *.htm
 *.plg
 *.lnp
+*.bak
+*.dep
+*.uvgui*
+*.ccxml
+*.ccsproject
+*.cproject

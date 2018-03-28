@@ -14,7 +14,7 @@
 // Struct for storing IP info
 struct ipInfo {
 	uint8_t deviceAddress;
-	char*(*recieveFunction)();
+	uint8_t(*recieveFunction)();
 	void(*sendFunction)(uint8_t);
 };
 
@@ -26,7 +26,7 @@ struct ipInfo {
 //		char*(*recieveFunction)() recieve function; user defined
 //		void(*sendFunction)(char*)	send function; user defined
 // Returns: none
-void ipConfig(uint8_t deviceAddress, char*(*recieveFunction)(), void(*sendFunction)(uint8_t));
+void ipConfig(uint8_t deviceAddress, uint8_t(*recieveFunction)(), void(*sendFunction)(uint8_t));
 
 
 // ----------sendMessage------------

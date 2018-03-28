@@ -13,6 +13,14 @@ uint8_t currentCheckSum;
 struct ipInfo configuration;
 
 
+enum section {INIT, SRC, DST, SIZE, MSG, CHK};
+enum section currentSection;
+uint8_t source;
+uint8_t destination;
+uint8_t length;
+uint8_t bytesRemaining;
+char recieveBuffer[255];
+
 // ----------calculateChecksum----------
 // Private helper function for calculating the checksum of a string
 // Parameters:
@@ -21,7 +29,7 @@ struct ipInfo configuration;
 // Returns: (uint8_t) checksum
 uint8_t calculateChecksum(char* inputString, uint8_t length) {
 	uint8_t checksum = 0;
-	for(uint16_t i = 0; i++; i < length) {
+	for(uint16_t i = 0; i < length; i++) {
 		checksum ^= inputString[i];
 	}
 	return(checksum);
@@ -58,7 +66,7 @@ uint8_t sendByte(uint8_t input) {
 // Returns: none
 void ipConfig(
 	uint8_t deviceAddress,
-	char*(*recieveFunction)(),
+	uint8_t(*recieveFunction)(),
 	void(*sendFunction)(uint8_t)) {
 
 	configuration.deviceAddress = deviceAddress;
@@ -92,7 +100,7 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 	sendByte(length);
 
 	// Send main message
-	for(uint8_t i = 0; i++; i < length) {
+	for(uint8_t i = 0; i < length; i++) {
 		sendByte(message[i]);
 	}
 
@@ -112,6 +120,65 @@ char* updateNetwork(void) {
 	// Read input buffer
 	// You implement this function
 
-	return;
+    // No incoming bytes yet
+    if(currentSection == INIT) {
+        if(configuration.recieveFunction() == 0xAA) {
+            currentSection = SRC;
+            length = 0;
+        }
+        // Set the return buffer length to 0
+        recieveBuffer[0] = 0;
+    }
+    // Read SRC address
+    else if(currentSection == SRC) {
+        source = configuration.recieveFunction();
+        recieveBuffer[length] = source;
+        currentSection = DST;
+    }
+    // Read DST address
+    else if(currentSection == DST) {
+        destination = configuration.recieveFunction();
+        recieveBuffer[length] = destination;
+        currentSection = SIZE;
+    }
+    // Get size
+    else if(currentSection == SIZE) {
+        bytesRemaining = configuration.recieveFunction();
+        recieveBuffer[length] = bytesRemaining;
+        currentSection = MSG;
+    }
+    // Get Message
+    else if(currentSection == MSG) {
+        if(bytesRemaining > 0) {
+            recieveBuffer[length] = configuration.recieveFunction();
+            bytesRemaining -= 1;
+        }
+        // Read CHK
+        else {
+            // Discard invalid checksum
+            if(calculateChecksum(recieveBuffer, length) != recieveBuffer[length]) {
+                return(recieveBuffer);
+            }
+            // Forward packet if SRC, DST not reached
+            if(recieveBuffer[1] != configuration.deviceAddress && recieveBuffer[2] != configuration.deviceAddress) {
+                configuration.sendFunction(0xAA);
+                for(uint8_t i = 1; i<=length; i++) {
+                    configuration.sendFunction(recieveBuffer[i]);
+                }
+            }
+            // Return message if DST matches or is broadcast
+            if(recieveBuffer[2] == 0x00 || recieveBuffer[2] == configuration.deviceAddress) {
+                recieveBuffer[0] = length;
+                return(recieveBuffer);
+            }
 
+        }
+    }
+
+    // The recieve buffer is indexed starting at 1
+    // This is so the return array can use the first byte as a length indicator
+    length += 1;
+
+    // Return if the packet is incomplete
+    return(recieveBuffer);
 }
