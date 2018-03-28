@@ -18,6 +18,9 @@ Source address. Each client should have a unique 7-bit source address obtained e
 
 If the broadcast bit is 1, the packet is a broadcast packet, and is forwarded by all clients except for the sender. If the broadcast bit is 0, the next bit contains the destination address.
 
+### Reserved SRC addresses
+- 0x00: Peer discovery - 0x80 indicates a Peer discovery packet, containing peer metadata in the MSG. The first byte of the MSG in a peer discovery packet is reserved for application-specific identifiers (such as an app ID).
+
 ### DST (Optional)
 If the broadcast bit in the SRC byte is set, the device with address DST should not forward the packet.
 
@@ -25,7 +28,7 @@ If the broadcast bit in the SRC byte is set, the device with address DST should 
 Size of the message. Since SIZE is an 8-bit value, message sizes are limited to 255 bytes. Null messages are possible, and should be interpreted and forwarded as appropriate by the network driver.
 
 ### MSG
-Message contents. The first byte should contain identifying information for the message, and should not be 0xAA or 0x00. 0x00 is reserved for peer discovery; 0xAA is reserved to avoid potential confusion for a packet initializer.
+Message contents. Since a SIZE identifier is used to specify the message length, null characters are allowed in the message.
 
 ### CHK
 8-bit checksum. Computed as the XOR of all bytes in the message, except for the message initializer.
