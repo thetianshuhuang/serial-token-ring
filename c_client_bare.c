@@ -1,5 +1,6 @@
 /*
 	C client framework for the serial token ring network protocol
+	Only function definitions supplied; no implementation included.
 */
 
 #include <stdint.h>
@@ -17,11 +18,8 @@ struct ipInfo configuration;
 //		(uint8_t) length of input string (since null is an allowed value)
 // Returns: (uint8_t) checksum
 uint8_t calculateChecksum(char* inputString, uint8_t length) {
-	uint8_t checksum = 0;
-	for(uint16_t i = 0; i++; i < length) {
-		checksum ^= inputString[i];
-	}
-	return(checksum);
+
+	return;
 }
 
 
@@ -30,7 +28,7 @@ uint8_t calculateChecksum(char* inputString, uint8_t length) {
 // Parameters: none
 // Returns: none
 void clearChecksum(void) {
-	currentCheckSum = 0;
+
 	return;
 }
 
@@ -40,9 +38,8 @@ void clearChecksum(void) {
 // Parameters: (uint8_t) character to send and XOR into the checksum
 // Returns: (uint8_t) current value of the checksum
 uint8_t sendByte(uint8_t input) {
-	currentCheckSum ^= input;
-	configuration.sendFunction(input);
-	return(input);
+
+	return;
 }
 
 
@@ -58,10 +55,6 @@ void ipConfig(
 	char*(*recieveFunction)(),
 	void(*sendFunction)(uint8_t)) {
 
-	configuration.deviceAddress = deviceAddress;
-	configuration.recieveFunction = recieveFunction;
-	configuration.sendFunction = sendFunction;
-
 	return;
 }
 
@@ -74,27 +67,6 @@ void ipConfig(
 //		(uint8_t) length of message
 // Returns: none
 void sendMessage(uint8_t destination, char* message, uint8_t length) {
-
-	// Clear checksum
-	clearChecksum();
-
-	// Start message (don't update checksum)
-	configuration.sendFunction(0xAA);
-
-	// Send address
-	sendByte(configuration.deviceAddress);
-	sendByte(destination);
-
-	// Send size
-	sendByte(length);
-
-	// Send main message
-	for(uint8_t i = 0; i++; i < length) {
-		sendByte(message[i]);
-	}
-
-	// Send checksum (don't update checksum obviously)
-	configuration.sendFunction(currentCheckSum);
 
 	return;
 }
@@ -109,9 +81,5 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 // Returns: none
 void updateNetwork(char* buffer) {
 
-	// Read input buffer
-	// You implement this function
-
 	return;
-
 }
