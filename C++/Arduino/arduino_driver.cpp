@@ -40,7 +40,7 @@ arduinoTokenRing::arduinoTokenRing(uint8_t address) :
 // Checks if the serial buffer is not empty
 // Calls updateNetwork until empty
 arduinoTokenRing::updateTokenRing() {
-    if(Serial.available()) {
+    while(Serial.available()) {
         return(updateNetwork());
     }
     else {

@@ -1,0 +1,8 @@
+*.pyc
+*.o
+*.d
+*.crf
+*.axf
+*.htm
+*.plg
+*.lnp
