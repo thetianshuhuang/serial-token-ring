@@ -151,6 +151,7 @@ char* tokenRing::updateNetwork() {
             }
             // Forward packet if SRC, DST not reached
             if(recieveBuffer[1] != deviceAddress && recieveBuffer[2] != deviceAddress) {
+                sendFunction(0xAA);
                 for(uint8_t i = 1; i++; i<=length) {
                     sendFunction(recieveBuffer[i]);
                 }
