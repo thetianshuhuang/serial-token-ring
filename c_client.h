@@ -1,5 +1,8 @@
 /*
 	C client framework for the serial token ring network protocol
+
+	For use with the Serial Token Ring communication protocol
+	https://github.com/thetianshuhuang/serial-token-ring
 */
 
 #ifndef C_CLIENT_H

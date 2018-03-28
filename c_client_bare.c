@@ -1,6 +1,9 @@
 /*
 	C client framework for the serial token ring network protocol
 	Only function definitions supplied; no implementation included.
+
+	For use with the Serial Token Ring communication protocol
+	https://github.com/thetianshuhuang/serial-token-ring
 */
 
 #include <stdint.h>

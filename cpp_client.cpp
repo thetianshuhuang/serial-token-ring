@@ -1,5 +1,5 @@
 /*
-	C client framework for the serial token ring network protocol
+	C++ client framework for the serial token ring network protocol
 
 	For use with the Serial Token Ring communication protocol
 	https://github.com/thetianshuhuang/serial-token-ring
@@ -19,7 +19,7 @@ struct ipInfo configuration;
 //		(char*) input string
 //		(uint8_t) length of input string (since null is an allowed value)
 // Returns: (uint8_t) checksum
-uint8_t calculateChecksum(char* inputString, uint8_t length) {
+uint8_t tokenRing::calculateChecksum(char* inputString, uint8_t length) {
 	uint8_t checksum = 0;
 	for(uint16_t i = 0; i++; i < length) {
 		checksum ^= inputString[i];
@@ -32,7 +32,7 @@ uint8_t calculateChecksum(char* inputString, uint8_t length) {
 // Private helper function for clearing the tracked checksum
 // Parameters: none
 // Returns: none
-void clearChecksum(void) {
+void tokenRing::clearChecksum(void) {
 	currentCheckSum = 0;
 	return;
 }
@@ -42,28 +42,28 @@ void clearChecksum(void) {
 // Private helper function for sending a byte and updating the tracked checksum
 // Parameters: (uint8_t) character to send and XOR into the checksum
 // Returns: (uint8_t) current value of the checksum
-uint8_t sendByte(uint8_t input) {
+uint8_t tokenRing::sendByte(uint8_t input) {
 	currentCheckSum ^= input;
-	configuration.sendFunction(input);
+	sendFunction(input);
 	return(input);
 }
 
 
-// ----------ipConfig----------
-// Configure the token ring network
+// ----------Constructor----------
+// Create a token ring object
 // Parameters:
 // 		(uint8_t) device address (7-bit only)
 //		char*(*recieveFunction)() recieve function; user defined
 //		void(*sendFunction)(char*)	send function; user defined
 // Returns: none
-void ipConfig(
+void tokenRing::tokenRing(
 	uint8_t deviceAddress,
 	char*(*recieveFunction)(),
 	void(*sendFunction)(uint8_t)) {
 
-	configuration.deviceAddress = deviceAddress;
-	configuration.recieveFunction = recieveFunction;
-	configuration.sendFunction = sendFunction;
+	deviceAddress = deviceAddress;
+	recieveFunction = recieveFunction;
+	sendFunction = sendFunction;
 
 	return;
 }
@@ -76,16 +76,16 @@ void ipConfig(
 //		(char*) message to send
 //		(uint8_t) length of message
 // Returns: none
-void sendMessage(uint8_t destination, char* message, uint8_t length) {
+void tokenRing::sendMessage(uint8_t destination, char* message, uint8_t length) {
 
 	// Clear checksum
 	clearChecksum();
 
 	// Start message (don't update checksum)
-	configuration.sendFunction(0xAA);
+	sendFunction(0xAA);
 
 	// Send address
-	sendByte(configuration.deviceAddress);
+	sendByte(deviceAddress);
 	sendByte(destination);
 
 	// Send size
@@ -97,7 +97,7 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 	}
 
 	// Send checksum (don't update checksum obviously)
-	configuration.sendFunction(currentCheckSum);
+	sendFunction(currentCheckSum);
 
 	return;
 }
@@ -110,7 +110,7 @@ void sendMessage(uint8_t destination, char* message, uint8_t length) {
 //		the first byte specifies the length of the buffer
 //		(since null characters are allowed in the message)
 // Returns: none
-void updateNetwork(char* buffer) {
+void tokenRing::updateNetwork(char* buffer) {
 
 	// Read input buffer
 	// You implement this function

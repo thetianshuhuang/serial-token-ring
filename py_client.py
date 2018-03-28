@@ -1,5 +1,9 @@
 # pc_client.py
 # python client for interacting with the serial token ring protocol
+#
+# For use with the Serial Token Ring communication protocol
+# https://github.com/thetianshuhuang/serial-token-ring
+
 
 import serial
 import time
