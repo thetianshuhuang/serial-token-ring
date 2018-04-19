@@ -1,7 +1,7 @@
-# Serial Token Ring Network
+# Serial Ring Network
 
 ## Protocol
-Clients should be connected via UART at 115200 baud in a token-ring topology. Packets should consist of at least 3 bytes:
+Clients should be connected via UART at 115200 baud in a ring topology. Packets should consist of at least 3 bytes:
 ```
 | 0xAA | SRC | DST | SIZE | ---MSG--- | CHK |
 ```
@@ -14,7 +14,7 @@ This is to minimize the impact of packets with misplaced SIZE values; if a previ
 Source address. Each client should have a unique 8-bit source address obtained either from EEPROM or by some form of hardware. Using a voltage divider with varying resistor values is suggested.
 
 ### DST
-Destination address. Packets should not be forwarded by their destination. 0x00 is reserved for peer discovery.
+Destination address. Packets should not be forwarded by their destination. 0x00 is reserved for peer discovery and broadcast.
 
 ### SIZE
 Size of the message. Since SIZE is an 8-bit value, message sizes are limited to 255 bytes. Null messages are possible, and should be interpreted and forwarded as appropriate by the network driver.
