@@ -14033,9 +14033,9 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <label x="91.44" y="93.98" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="USB_A" gate="G$1" pin="D-"/>
-<wire x1="-5.08" y1="86.36" x2="0" y2="86.36" width="0.1524" layer="91"/>
-<label x="0" y="86.36" size="1.016" layer="95" xref="yes"/>
+<pinref part="USB_A" gate="G$1" pin="D+"/>
+<wire x1="-5.08" y1="83.82" x2="0" y2="83.82" width="0.1524" layer="91"/>
+<label x="0" y="83.82" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="UART1_RX" class="0">
