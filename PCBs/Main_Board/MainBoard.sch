@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.0.0">
+<eagle version="8.3.1">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1141,9 +1141,6 @@ W = angled&lt;p&gt;
 </package3d>
 <package3d name="FE10" urn="urn:adsk.eagle:package:8192/1" type="box" library_version="1">
 <description>FEMALE HEADER</description>
-<packageinstances>
-<packageinstance name="FE10"/>
-</packageinstances>
 </package3d>
 </packages3d>
 <symbols>
@@ -13529,9 +13526,6 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <packages3d>
 <package3d name="EDG-04" urn="urn:adsk.eagle:package:26655/2" type="model" library_version="2">
 <description>DIP SWITCH</description>
-<packageinstances>
-<packageinstance name="EDG-04"/>
-</packageinstances>
 </package3d>
 </packages3d>
 <symbols>
@@ -14039,9 +14033,9 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <label x="91.44" y="93.98" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="USB_A" gate="G$1" pin="D+"/>
-<wire x1="-5.08" y1="83.82" x2="0" y2="83.82" width="0.1524" layer="91"/>
-<label x="0" y="83.82" size="1.016" layer="95" xref="yes"/>
+<pinref part="USB_A" gate="G$1" pin="D-"/>
+<wire x1="-5.08" y1="86.36" x2="0" y2="86.36" width="0.1524" layer="91"/>
+<label x="0" y="86.36" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="UART1_RX" class="0">
@@ -14283,12 +14277,6 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <segment>
 <pinref part="USB_B" gate="G$1" pin="4"/>
 <wire x1="27.94" y1="66.04" x2="33.02" y2="66.04" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$67" class="0">
-<segment>
-<pinref part="USB_A" gate="G$1" pin="D-"/>
-<wire x1="-5.08" y1="86.36" x2="0" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3.5MM" class="0">
