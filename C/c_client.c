@@ -156,18 +156,24 @@ char* updateNetwork(void) {
         // Read CHK
         else {
             // Discard invalid checksum
-            if(calculateChecksum(recieveBuffer, length) != recieveBuffer[length]) {
+            if(calculateChecksum(recieveBuffer, length) !=
+               recieveBuffer[length])
+            {
                 return(recieveBuffer);
             }
             // Forward packet if SRC, DST not reached
-            if(recieveBuffer[1] != configuration.deviceAddress && recieveBuffer[2] != configuration.deviceAddress) {
+            if(recieveBuffer[1] != configuration.deviceAddress && recieveBuffer[2] !=
+               configuration.deviceAddress)
+            {
                 configuration.sendFunction(0xAA);
                 for(uint8_t i = 1; i<=length; i++) {
                     configuration.sendFunction(recieveBuffer[i]);
                 }
             }
             // Return message if DST matches or is broadcast
-            if(recieveBuffer[2] == 0x00 || recieveBuffer[2] == configuration.deviceAddress) {
+            if(recieveBuffer[2] == 0x00 ||
+               recieveBuffer[2] == configuration.deviceAddress)
+            {
                 recieveBuffer[0] = length;
                 return(recieveBuffer);
             }
