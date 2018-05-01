@@ -7,7 +7,7 @@
 
 #include "tm4c_client.h"
 #include "UART.h"
-#incldue "../c_client.h"
+#include "../c_client.h"
 #include <stdint.h>
 
 
