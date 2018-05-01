@@ -7,7 +7,7 @@
 
 #include "tm4c_client.h"
 #include "UART.h"
-#include "../c_client.h"
+#include "c_client.h"
 #include <stdint.h>
 
 
@@ -16,7 +16,7 @@
 // Parameter: address - network address to use
 void initTokenRing(uint8_t address) {
     UART_Init();
-    ipConfig(address, &UART_OutChar, &UART_InChar);
+    ipConfig(address, &UART_InChar, &UART_OutChar);
     return;
 }
 
@@ -26,7 +26,7 @@ void initTokenRing(uint8_t address) {
 char* updateTokenRing() {
     char* returnBuffer;
     while(RxFifo_Size()) {
-        returnBuffer = updateNetwork(UART_InChar());
+        returnBuffer = updateNetwork();
         if(returnBuffer[0] != 0) {
             return(returnBuffer);
         }

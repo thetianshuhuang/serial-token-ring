@@ -66,8 +66,8 @@ uint8_t sendByte(uint8_t input) {
 // Returns: none
 void ipConfig(
 	uint8_t deviceAddress,
-	uint8_t(*recieveFunction)(),
-	void(*sendFunction)(uint8_t)) {
+	char(*recieveFunction)(void),
+	void(*sendFunction)(char)) {
 
 	configuration.deviceAddress = deviceAddress;
 	configuration.recieveFunction = recieveFunction;
